@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarnelleGPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            background-color: white;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 2px solid #6a1b9a;
+        }
+        .chat-box {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+            height: 100%;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+        .user-message, .ai-message {
+            margin: 10px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+        .user-message {
+            justify-content: flex-end;
+        }
+        .ai-message {
+            justify-content: flex-start;
+        }
+        .user-message .message, .ai-message .message {
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        .user-message .message {
+            background-color: #b0bec5;
+            color: #333;
+        }
+        .ai-message .message {
+            background-color: #8e24aa;
+            color: white;
+        }
+        .input-container {
+            display: flex;
+            padding: 15px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            flex-wrap: wrap;
+        }
+        .input-container input {
+            width: 80%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        .input-container input:focus {
+            border-color: #8e24aa;
+        }
+        .input-container button {
+            background-color: #8e24aa;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .input-container button:hover {
+            background-color: #6a1b9a;
+        }
+        .input-container input::placeholder {
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chatBox"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Message">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const sendButton = document.getElementById('sendButton');
+        const userInput = document.getElementById('userInput');
+        const chatBox = document.getElementById('chatBox');
+
+        window.onload = () => {
+            appendMessage('ai', 'Hello! How can I help?');
+        };
+
+        sendButton.addEventListener('click', async () => {
+            const userText = userInput.value.trim();
+            if (!userText) return;
+
+            appendMessage('user', userText);
+            userInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const aiResponse = await fetch(https://mkllm.hideme.eu.org/${encodeURIComponent(userText)});
+            const aiText = await aiResponse.text();
+if (userText.toLowerCase().includes('generate')) {
+                const imageUrl = https://image.pollinations.ai/prompt/${encodeURIComponent(userText)};
+                appendMessage('ai', <img src="${imageUrl}" alt="Generated Image" style="max-width: 100%; border-radius: 10px;">);
+            } else {
+                appendMessage('ai', aiText);
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+        function appendMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add(${sender}-message);
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message');
+            messageContent.innerHTML = text;
+            messageDiv.appendChild(messageContent);
+            chatBox.appendChild(messageDiv);
+        }
+    </script>
+</body>
+</html>
